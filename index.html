@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
+  <title>Oriyes Exchange | Real-Time Multi-Currency Converter</title>
+  <meta name="description" content="Oriyes Exchange - Real-time currency exchange calculator with custom rates and thermal POS printer receipt support.">
+  <meta name="theme-color" content="#f8f7f4">
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-creamy">
+
+  <!-- ==============================================
+       1. LOADING SCREEN
+  =============================================== -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loader-content">
+      <div class="loader-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
+          <path d="M12 6v2m0 8v2"></path>
+        </svg>
+      </div>
+      <h1 class="loader-title">ORIYES <span>EXCHANGE</span></h1>
+      <p class="loader-subtitle" data-i18n="loading_rates">Connecting to Live Exchange Feeds...</p>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill"></div>
+      </div>
+      <div class="api-tag" data-i18n="verified_feed">Verified Live Rates</div>
+    </div>
+  </div>
+
+  <!-- Main Application Wrapper -->
+  <div id="app-container" class="app-container">
+
+    <!-- ==============================================
+         VIEW 1: HOME / DASHBOARD SCREEN
+    =============================================== -->
+    <section id="home-view" class="view active-view">
+      
+      <!-- Floating Cream Title Bar (Settings icon removed as requested) -->
+      <header class="floating-header">
+        <div class="header-left">
+          <div class="brand-box">
+            <div class="brand-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
+                <path d="M12 6v2m0 8v2"></path>
+              </svg>
+            </div>
+            <div class="brand-info">
+              <span class="brand-title">Oriyes Exchange</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Language Switcher Pill (EN | বাংলা) -->
+          <div class="lang-switch-pill" id="lang-toggle-btn" title="Toggle Language">
+            <span class="lang-opt active" id="lang-btn-en">EN</span>
+            <span class="lang-sep">|</span>
+            <span class="lang-opt" id="lang-btn-bn">বাংলা</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Clean Banner Card -->
+      <div class="hero-clean-card">
+        <div class="hero-top-row">
+          <span class="hero-badge" data-i18n="badge_gateway">Global Currency Gateway</span>
+          <span class="live-pulse-badge">
+            <span class="live-dot"></span>
+            <span class="live-text" data-i18n="live_status">LIVE</span>
+          </span>
+        </div>
+        <h2 class="hero-title" data-i18n="exchange_money">Exchange Money</h2>
+        <p class="hero-desc" data-i18n="hero_desc">Real-time market rates and customized client payouts with owner profit controls.</p>
+        
+        <div class="hero-quick-status">
+          <div class="h-status-left">
+            <span class="status-pulse-ring"></span>
+            <span id="home-rates-status" class="status-rates-text">Live Rates Active</span>
+          </div>
+          <span id="home-rates-time" class="status-rates-time">Updated</span>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           MOBILE APP ICON GRID (Exchange, Board, Slip, Settings)
+      =============================================== -->
+      <div class="apps-section">
+        <div class="section-head">
+          <h3 class="section-title" data-i18n="apps_title">Features & Apps</h3>
+        </div>
+
+        <div class="mobile-apps-grid">
+          
+          <!-- APP 1: Exchange -->
+          <div id="btn-app-exchange" class="app-icon-item" role="button" tabindex="0">
+            <div class="app-icon-squircle icon-exchange">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+              </svg>
+            </div>
+            <span class="app-icon-label" data-i18n="app_exchange">Exchange</span>
+          </div>
+
+          <!-- APP 2: Rate Board -->
+          <div id="btn-app-board" class="app-icon-item" role="button" tabindex="0">
+            <div class="app-icon-squircle icon-board">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+            </div>
+            <span class="app-icon-label" data-i18n="app_board">Rate Board</span>
+          </div>
+
+          <!-- APP 3: POS Slip -->
+          <div id="btn-app-slip" class="app-icon-item" role="button" tabindex="0">
+            <div class="app-icon-squircle icon-slip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <span class="app-icon-label" data-i18n="app_slip">POS Slip</span>
+          </div>
+
+          <!-- APP 4: Settings (Cleanly at the end of grid) -->
+          <div id="btn-app-settings" class="app-icon-item" role="button" tabindex="0">
+            <div class="app-icon-squircle icon-settings">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+            </div>
+            <span class="app-icon-label" data-i18n="app_settings">Settings</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Premium Active Rate Setting Card -->
+      <div class="premium-active-rate-card">
+        <div class="rate-card-left">
+          <div class="rate-status-dot-wrap">
+            <span class="active-pulse-dot"></span>
+          </div>
+          <div class="rate-status-details">
+            <span class="rate-status-label" data-i18n="active_rate_mode">Active Rate Setting</span>
+            <span class="rate-status-val" id="home-rate-mode-info">Custom Fixed Rates Active</span>
+          </div>
+        </div>
+        <button id="btn-home-config" class="btn-configure-pill" data-i18n="configure">Configure ➔</button>
+      </div>
+
+    </section>
+
+    <!-- ==============================================
+         VIEW 2: EXCHANGE SUB-SCREEN
+    =============================================== -->
+    <section id="exchange-view" class="view">
+      
+      <!-- Inside Header (Clean Oriyes Exchange title without "Rate Desk") -->
+      <header class="floating-header inside-header">
+        <div class="header-left">
+          <button id="btn-back-home" class="nav-back-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span data-i18n="back">Back</span>
+          </button>
+          <div class="inside-title-box">
+            <h2 class="inside-title">Oriyes Exchange</h2>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button id="btn-refresh-rates" class="nav-icon-btn refresh-btn" title="Refresh Live Rates Now">
+            <svg id="refresh-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Live Rate Refresh Status Strip -->
+      <div class="exchange-status-strip">
+        <div class="status-left">
+          <span class="pulse-dot"></span>
+          <span id="feed-status-text">Verified Live Feeds</span>
+        </div>
+        <div class="status-right">
+          <span id="last-updated-text">Just now</span>
+        </div>
+      </div>
+
+      <!-- MAIN EXCHANGE FORM CONTAINER -->
+      <div class="exchange-card">
+
+        <!-- ================= OPTION 1: CLIENT GIVES (YOU RECEIVE) ================= -->
+        <div class="currency-group from-group">
+          <!-- Top Row: Label on Left, Currency Selector on Right -->
+          <div class="group-top-row">
+            <div class="group-label">
+              <span class="label-badge">1</span>
+              <span class="label-text" data-i18n="client_gives">You Receive (Client Pays)</span>
+            </div>
+
+            <!-- Currency Selector Button -->
+            <button id="btn-select-from" class="currency-select-btn" type="button">
+              <span class="flag-icon-wrap" id="from-flag">🇺🇸</span>
+              <span class="currency-code" id="from-code">USD</span>
+              <svg class="chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Dedicated Full Width Amount Row: Spans entire left-to-right -->
+          <div class="fullwidth-amount-wrapper">
+            <span class="currency-symbol-tag" id="from-symbol">$</span>
+            <input 
+              type="number" 
+              id="amount-input" 
+              class="amount-field-full" 
+              placeholder="0.00" 
+              value="100" 
+              min="0" 
+              step="any"
+              inputmode="decimal"
+              autocomplete="off"
+            >
+          </div>
+
+          <!-- Quick Preset Chips -->
+          <div class="amount-presets">
+            <button class="preset-chip" data-val="10">+10</button>
+            <button class="preset-chip" data-val="50">+50</button>
+            <button class="preset-chip" data-val="100">100</button>
+            <button class="preset-chip" data-val="500">500</button>
+            <button class="preset-chip" data-val="1000">1000</button>
+            <button class="preset-chip reset-preset" id="btn-clear-amount" data-i18n="clear">Clear</button>
+          </div>
+        </div>
+
+        <!-- SWAP BUTTON -->
+        <div class="swap-divider">
+          <div class="divider-line"></div>
+          <button id="btn-swap-currency" class="swap-circle-btn" title="Swap currencies" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+            </svg>
+          </button>
+          <div class="divider-line"></div>
+        </div>
+
+        <!-- ================= OPTION 2: CLIENT RECEIVES (PAYOUT) ================= -->
+        <div class="currency-group to-group">
+          <!-- Top Row: Label on Left, Currency Selector on Right -->
+          <div class="group-top-row">
+            <div class="group-label">
+              <span class="label-badge success">2</span>
+              <span class="label-text" data-i18n="client_receives">Client Receives (Payout)</span>
+            </div>
+
+            <!-- Currency Selector Button -->
+            <button id="btn-select-to" class="currency-select-btn" type="button">
+              <span class="flag-icon-wrap" id="to-flag">🇸🇦</span>
+              <span class="currency-code" id="to-code">SAR</span>
+              <svg class="chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Dedicated Full Width Amount Display: Full left-to-right space for huge numbers -->
+          <div class="fullwidth-amount-wrapper output-wrapper">
+            <span class="currency-symbol-tag success" id="to-symbol">৳</span>
+            <div class="output-amount-full" id="client-receives-amount">0.00</div>
+          </div>
+        </div>
+
+        <!-- ================= DETAILED RATE BREAKDOWN CARD (Phone Responsive) ================= -->
+        <div class="rate-breakdown-card">
+          <div class="breakdown-row">
+            <span class="breakdown-label" data-i18n="market_rate">Live Market Rate:</span>
+            <span class="breakdown-val font-mono bold-text" id="market-rate-text">1 USD = -- BDT</span>
+          </div>
+
+          <div class="breakdown-row">
+            <span class="breakdown-label" data-i18n="applied_rate">Applied Client Rate:</span>
+            <span class="breakdown-val font-mono bold-text highlight-blue" id="effective-rate-text">1 USD = -- BDT</span>
+          </div>
+
+          <div class="breakdown-row" id="rate-source-row">
+            <span class="breakdown-label" data-i18n="rate_type">Pricing Source:</span>
+            <span class="rate-mode-badge bold-text" id="rate-source-tag">Custom Fixed Rate</span>
+          </div>
+
+          <div class="breakdown-divider"></div>
+
+          <!-- Phone Responsive Summary: Left "You Receive", Right "Your Net Profit", Below "Client Net Payout" -->
+          <div class="breakdown-summary phone-two-col">
+            <div class="summary-col">
+              <span class="summary-label" data-i18n="you_receive">You Receive:</span>
+              <span class="summary-val font-mono bold-text" id="summary-you-get">0.00 USD</span>
+            </div>
+            <div class="summary-col profit-col text-right">
+              <span class="summary-label bold-profit-label" data-i18n="your_profit">Your Net Profit:</span>
+              <span class="summary-val font-mono bold-profit-amount" id="summary-your-profit">+0.00 BDT</span>
+            </div>
+            <div class="summary-col total-payout-col">
+              <div class="payout-card-inner">
+                <span class="payout-inner-label" data-i18n="client_payout_total">Client Net Payout:</span>
+                <span class="payout-inner-amount font-mono" id="summary-client-payout">0.00 BDT</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sleek Premium Action Buttons -->
+        <div class="exchange-action-bar">
+          <button id="btn-copy-summary" class="btn-action-premium primary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span data-i18n="copy_receipt">Copy Client Receipt</span>
+          </button>
+
+          <button id="btn-open-receipt-modal" class="btn-action-premium secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span data-i18n="view_slip">Print POS Slip</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Quick Benchmark Pairs -->
+      <div class="quick-table-card">
+        <h4 class="card-mini-title" data-i18n="quick_benchmarks">Quick Conversion Benchmarks</h4>
+        <div class="quick-pairs-grid" id="quick-pairs-grid">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==============================================
+         VIEW 3: DEDICATED SETTINGS PAGE
+    =============================================== -->
+    <section id="settings-view" class="view">
+      
+      <header class="floating-header inside-header">
+        <div class="header-left">
+          <button id="btn-back-from-settings" class="nav-back-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span data-i18n="back">Back</span>
+          </button>
+          <div class="inside-title-box">
+            <h2 class="inside-title" data-i18n="settings_title">Exchange Settings</h2>
+            <span class="inside-subtitle">Oriyes Exchange</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button id="btn-save-settings-top" class="btn-primary-small" data-i18n="save">Save</button>
+        </div>
+      </header>
+
+      <div class="settings-page-content">
+
+        <!-- Pricing Method Selector (Fixed vs Margin %) -->
+        <div class="settings-card-box">
+          <div class="card-box-header">
+            <h3 class="card-box-title" data-i18n="pricing_method">Exchange Pricing Method</h3>
+            <p class="card-box-desc" data-i18n="pricing_desc">Choose whether to give clients custom fixed rates or an automatic percentage margin.</p>
+          </div>
+
+          <div class="pricing-tabs">
+            <button class="pricing-tab active" id="tab-fixed-mode" data-mode="fixed">
+              <span class="tab-icon">🎯</span>
+              <strong data-i18n="mode_fixed_title">Custom Fixed Rates</strong>
+              <small data-i18n="mode_fixed_sub">Set exact rate per pair (e.g., 1 USD = 120 BDT)</small>
+            </button>
+
+            <button class="pricing-tab" id="tab-margin-mode" data-mode="margin">
+              <span class="tab-icon">📊</span>
+              <strong data-i18n="mode_margin_title">Margin Percentage (%)</strong>
+              <small data-i18n="mode_margin_sub">Automatic percentage cut from live market rate</small>
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom Fixed Rates Panel (Both Directions) -->
+        <div class="settings-card-box" id="fixed-rates-section">
+          <div class="card-box-header">
+            <div class="header-with-badge">
+              <h3 class="card-box-title" data-i18n="fixed_rates_title">Custom Rates for Currency Pairs</h3>
+              <span class="active-badge" data-i18n="active">ACTIVE</span>
+            </div>
+            <p class="card-box-desc" data-i18n="fixed_rates_desc">
+              Specify the exact rate client receives. Live market rate is shown for reference so you can easily lock in your profit in both directions.
+            </p>
+          </div>
+
+          <div class="pairs-fixed-list" id="pairs-fixed-list">
+            <!-- Dynamically populated list of currency pairs -->
+          </div>
+
+          <!-- Add New Custom Pair Row -->
+          <div class="add-pair-box">
+            <h4 class="add-pair-title" data-i18n="add_pair_title">Add Custom Currency Pair</h4>
+            <div class="add-pair-controls">
+              <select id="add-pair-from" class="setting-input-select">
+                <option value="USD">USD - US Dollar</option>
+                <option value="SAR">SAR - Saudi Riyal</option>
+                <option value="AED">AED - UAE Dirham</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="BDT">BDT - Bangladeshi Taka</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="MYR">MYR - Malaysian Ringgit</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="KWD">KWD - Kuwaiti Dinar</option>
+                <option value="QAR">QAR - Qatari Riyal</option>
+              </select>
+
+              <span class="pair-arrow">➔</span>
+
+              <select id="add-pair-to" class="setting-input-select">
+                <option value="BDT">BDT - Bangladeshi Taka</option>
+                <option value="USD">USD - US Dollar</option>
+                <option value="SAR">SAR - Saudi Riyal</option>
+                <option value="AED">AED - UAE Dirham</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+              </select>
+
+              <button id="btn-add-pair" class="btn-secondary" data-i18n="add_pair_btn">+ Add Pair</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Percentage Margin Panel -->
+        <div class="settings-card-box" id="margin-rates-section" style="display:none;">
+          <div class="card-box-header">
+            <h3 class="card-box-title" data-i18n="margin_percent_title">Owner Profit Margin (%)</h3>
+            <p class="card-box-desc" data-i18n="margin_percent_desc">Fallback percentage cut applied to live market rates if no custom fixed rate is set.</p>
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-header">
+              <span data-i18n="profit_margin">Profit Margin:</span>
+              <span class="margin-display-pill"><span id="settings-margin-val">0.0</span>%</span>
+            </div>
+            <input type="range" id="margin-range-slider" min="0" max="10" step="0.1" value="0">
+            <div class="slider-scale">
+              <span>0%</span>
+              <span>2.5%</span>
+              <span>5.0%</span>
+              <span>7.5%</span>
+              <span>10%</span>
+            </div>
+          </div>
+
+          <div class="margin-presets">
+            <button class="margin-btn" data-m="0">0%</button>
+            <button class="margin-btn" data-m="1.0">1.0%</button>
+            <button class="margin-btn" data-m="1.5">1.5%</button>
+            <button class="margin-btn" data-m="2.0">2.0%</button>
+            <button class="margin-btn" data-m="3.0">3.0%</button>
+            <button class="margin-btn" data-m="5.0">5.0%</button>
+          </div>
+        </div>
+
+        <!-- Preferences & Language -->
+        <div class="settings-card-box">
+          <div class="card-box-header">
+            <h3 class="card-box-title" data-i18n="prefs_title">Preferences & Language</h3>
+          </div>
+
+          <div class="settings-two-col">
+            <div class="setting-field">
+              <label data-i18n="app_lang">Application Language:</label>
+              <select id="setting-language" class="setting-input-select">
+                <option value="en">English (English)</option>
+                <option value="bn">বাংলা (Bangla)</option>
+              </select>
+            </div>
+
+            <div class="setting-field">
+              <label data-i18n="default_send">Default Send (Client Gives):</label>
+              <select id="setting-default-from" class="setting-input-select">
+                <option value="USD">USD - US Dollar</option>
+                <option value="SAR">SAR - Saudi Riyal</option>
+                <option value="AED">AED - UAE Dirham</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="BDT">BDT - Bangladeshi Taka</option>
+              </select>
+            </div>
+
+            <div class="setting-field">
+              <label data-i18n="default_receive">Default Receive (Client Gets):</label>
+              <select id="setting-default-to" class="setting-input-select">
+                <option value="BDT">BDT - Bangladeshi Taka</option>
+                <option value="USD">USD - US Dollar</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="SAR">SAR - Saudi Riyal</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Save Actions Footer -->
+        <div class="settings-footer-actions">
+          <button id="btn-reset-settings" class="btn-secondary" data-i18n="reset_defaults">Reset to Defaults</button>
+          <button id="btn-save-settings" class="btn-primary" data-i18n="save_changes">Save Changes</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==============================================
+         VIEW 4: LIVE RATES BOARD
+    =============================================== -->
+    <section id="board-view" class="view">
+      <header class="floating-header inside-header">
+        <div class="header-left">
+          <button id="btn-back-from-board" class="nav-back-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span data-i18n="back">Back</span>
+          </button>
+          <div class="inside-title-box">
+            <h2 class="inside-title" data-i18n="board_title">Live Rate Board</h2>
+            <span class="inside-subtitle">Oriyes Exchange</span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button id="btn-board-refresh" class="nav-icon-btn refresh-btn" title="Refresh Live Rates">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Base Switcher -->
+      <div class="board-base-bar">
+        <span data-i18n="base_curr">Base Currency:</span>
+        <div class="base-pill-group">
+          <button class="base-pill active" data-base="USD">USD ($)</button>
+          <button class="base-pill" data-base="BDT">BDT (৳)</button>
+          <button class="base-pill" data-base="SAR">SAR (﷼)</button>
+          <button class="base-pill" data-base="EUR">EUR (€)</button>
+        </div>
+      </div>
+
+      <!-- Table Container -->
+      <div class="rate-table-container">
+        <table class="rate-table">
+          <thead>
+            <tr>
+              <th data-i18n="col_currency">Currency</th>
+              <th data-i18n="col_market">Market Rate</th>
+              <th data-i18n="col_client">Client Rate</th>
+              <th data-i18n="col_action">Action</th>
+            </tr>
+          </thead>
+          <tbody id="rate-table-body">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div><!-- /app-container -->
+
+
+  <!-- ==============================================
+       MODAL 1: CURRENCY PICKER BOTTOM SHEET / DRAWER
+       (No intrusive auto-focus, smooth scrolling, solid bottom)
+  =============================================== -->
+  <div id="currency-modal" class="modal-overlay">
+    <div class="modal-card currency-drawer-card">
+      <div class="drawer-drag-handle"></div>
+
+      <div class="modal-header">
+        <div class="modal-title-box">
+          <h3 class="modal-title" id="currency-modal-title" data-i18n="select_currency">Select Currency</h3>
+          <p class="modal-desc" data-i18n="search_currency">Select or search currency</p>
+        </div>
+        <button id="btn-close-currency-modal" class="modal-close-btn">&times;</button>
+      </div>
+
+      <!-- Search Box (NO autofocus) -->
+      <div class="modal-search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="text" 
+          id="currency-search-input" 
+          placeholder="Search currency code or name..."
+          autocomplete="off"
+          autocapitalize="none"
+        >
+        <button id="btn-clear-search" class="clear-search-btn" style="display:none;">&times;</button>
+      </div>
+
+      <!-- Quick Popular Currencies Row (Real Flags) -->
+      <div class="popular-currencies-row">
+        <span class="popular-label" data-i18n="popular">Popular Quick Select:</span>
+        <div class="popular-chips" id="popular-chips-box">
+          <!-- Rendered dynamically with real country flags -->
+        </div>
+      </div>
+
+      <!-- Currency List Scroll (Zero Glitch / Solid Bottom) -->
+      <div class="currency-list-scroll" id="currency-list-container">
+        <!-- Rendered by JS with real country flags -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==============================================
+       MODAL 2: 58mm/80mm POS THERMAL PRINTER SLIP
+       (Market Rate REMOVED as requested)
+  =============================================== -->
+  <div id="receipt-modal" class="modal-overlay">
+    <div class="modal-card receipt-card">
+      <div class="modal-header">
+        <div class="modal-title-box">
+          <h3 class="modal-title" data-i18n="receipt_slip_title">POS Thermal Slip</h3>
+          <p class="modal-desc">58mm / 80mm Mini Printer Ready</p>
+        </div>
+        <button id="btn-close-receipt-modal" class="modal-close-btn">&times;</button>
+      </div>
+
+      <!-- POS THERMAL PAPER RECEIPT SLIP -->
+      <div class="pos-receipt-wrapper">
+        <div class="pos-receipt-slip" id="printable-pos-receipt">
+          
+          <div class="pos-header">
+            <div class="pos-brand-name">ORIYES EXCHANGE</div>
+            <div class="pos-sub-text">OFFICIAL TRANSACTION RECEIPT</div>
+            <div class="pos-divider-star">********************************</div>
+            <div class="pos-meta-row">
+              <span>DATE: <strong id="pos-date">2026-11-06</strong></span>
+              <span>TIME: <strong id="pos-time">14:09:00</strong></span>
+            </div>
+            <div class="pos-meta-row">
+              <span>TXN: <strong id="pos-txn-id">XC-948201</strong></span>
+              <span>STATUS: <strong>VERIFIED</strong></span>
+            </div>
+            <div class="pos-divider-dash">--------------------------------</div>
+          </div>
+
+          <div class="pos-body">
+            <div class="pos-row">
+              <span class="pos-col-label" data-i18n="client_gave">CLIENT PAID:</span>
+              <span class="pos-col-val" id="pos-client-paid">100.00 USD</span>
+            </div>
+            <div class="pos-row">
+              <span class="pos-col-label" data-i18n="applied_rate_slip">EXCHANGE RATE:</span>
+              <span class="pos-col-val" id="pos-applied-rate">1 USD = 120.00 BDT</span>
+            </div>
+
+            <div class="pos-divider-double">================================</div>
+
+            <div class="pos-total-row">
+              <div class="pos-total-title" data-i18n="net_payout">NET CLIENT PAYOUT:</div>
+              <div class="pos-total-amount" id="pos-net-payout">12,000.00 BDT</div>
+            </div>
+
+            <div class="pos-divider-double">================================</div>
+          </div>
+
+          <div class="pos-footer">
+            <div class="pos-barcode">|||| | ||||| || |||||| | |||| ||</div>
+            <div class="pos-note" data-i18n="thank_you">Thank you for exchanging with us!</div>
+            <div class="pos-note-small">CUSTOMER COPY - ORIYES EXCHANGE</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="btn-copy-receipt-text" class="btn-action-premium secondary" data-i18n="copy_text">Copy Text</button>
+        <button id="btn-print-receipt" class="btn-action-premium primary" data-i18n="print_slip">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:5px;">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          Print 58/80mm POS Slip
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Message -->
+  <div id="toast" class="toast">Notification text</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
